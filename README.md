@@ -8,6 +8,8 @@ Remember to drink every 20 minutes with this simple script.
 
 Since the app is very small, you can simply use the binaries without recompiling it.
 
+For now the app displays the icon only for linux
+
 ### Installation
 
 ##### Linux
