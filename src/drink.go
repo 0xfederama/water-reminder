@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"time"
+
 	"github.com/gen2brain/beeep"
 )
 
@@ -21,7 +22,7 @@ func Alert(title, message, appIcon string) {
 		cmd.Run()
 	} else if exOS == "linux" {
 		beeep.Notify(title, message, appIcon)
-		beeep.Beep(440.0, 200)
+		beeep.Beep(440.0, 200) //Needs special permissions in Linux, doesn't work (for now)
 	}
 }
 
@@ -29,7 +30,7 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	//Prendo il path dell'eseguibile per trovare il path dell'icona
+	//Path to the image used for the notification
 	exPath, err := os.Executable()
 	if err != nil {
 		panic(err)
@@ -41,7 +42,7 @@ func main() {
 	//Executing first command
 	Alert("Drink!!!", "Start drinking now", icon)
 
-	//Eseguo comando ogni 20 minuti
+	//Wait 30 minutes before sending another notification
 	for {
 		time.Sleep(30 * time.Minute)
 		Alert("Drink!!!", "You haven't been drinking for 30 minutes", icon)
