@@ -1,6 +1,9 @@
 # Water Reminder
 
-Remember to drink every 20 minutes with this simple script :droplet:
+:droplet: :droplet: :droplet:
+
+Remember to drink every 20 minutes with this simple script.
+
 You have to install [go](https://golang.org/doc/install) in order to use the app
 
 ### Installation
