@@ -42,7 +42,7 @@ func main() {
 
 	//Wait *minutes* minutes before sending another notification
 	for {
-		time.Sleep(time.Duration(minutes) * time.Second)
+		time.Sleep(time.Duration(minutes) * time.Minute)
 		Alert("Drink!!!", "You haven't been drinking for "+delay+" minutes", icon)
 	}
 
