@@ -12,7 +12,7 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	//Path to the image used for the notification
+	//Path to the image and config used for the notification
 	exPath, err := os.Executable()
 	if err != nil {
 		return
@@ -34,7 +34,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	scanner.Scan()
 	delay := scanner.Text()
-	//Convert the string read from config in int
+	//Convert the string read from config to int
 	minutes, err := strconv.Atoi(string(delay))
 	if err != nil {
 		return
