@@ -4,11 +4,13 @@
 
 :droplet: :droplet: :droplet:
 
-Remember to drink every 20 minutes with this simple script.
+Remember to drink every 30 minutes with this simple script.
 
 Since the app is very small, you can simply use the binaries without recompiling it.
 
-For now the app displays the icon only for linux
+You can change the delay between notifications writing in `path/to/water-reminder/resources/config.txt` file the amount of minutes you want. Default is 30.
+
+For now the app displays the icon only for linux.
 
 ### Installation
 
