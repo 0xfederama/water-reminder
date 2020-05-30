@@ -12,15 +12,15 @@ You can change the delay between notifications writing in `path/to/water-reminde
 
 For now the app displays the icon only for linux.
 
-### Installation
+# Installation
 
-##### Linux
+### Linux
 
 - Clone the repository wherever you want
 - Open "Startup Applications", press "Add" and in the command section type `path/to/water-reminder/bin/drink_linux`. Give the app the name you want.
 - If you don't want the app to open at startup, just go in the terminal when you want to execute it and type `/path/to/water-reminder/bin/drink_linux`
 
-##### MacOS
+### MacOS
 
 - Clone the repository wherever you want
 - Only for the first time, you have to cd into `path/to/water-reminder/bin/drink_mac` and type `./drink_mac`. Then go into preferences, security and allow the app to be executed, since it is not trusted by Apple.
