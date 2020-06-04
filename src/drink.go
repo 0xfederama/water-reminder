@@ -6,6 +6,8 @@ import (
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/gen2brain/beeep"
 )
 
 func main() {
@@ -36,15 +38,15 @@ func main() {
 	//Send first notification after 5 seconds
 	time.Sleep(5 * time.Second)
 	message := "Start drinking now"
-	notify(OS, configIconPath, message)
+	beeep.Alert("Drink!", message, configIconPath)
 
 	delay := readDelay(configFilePath)
 
 	//While true send notifications sleeping every delay minutes
 	for {
 		time.Sleep(time.Duration(delay) * time.Minute)
-		message := "You haven't been drinking for" + strconv.Itoa(delay) + "minutes"
-		notify(OS, configIconPath, message)
+		message := "You haven't been drinking for " + strconv.Itoa(delay) + " minutes"
+		beeep.Alert("Drink!", message, configIconPath)
 	}
 
 }

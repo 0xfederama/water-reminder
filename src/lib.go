@@ -5,11 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strconv"
-
-	"github.com/gen2brain/beeep"
 )
 
 func findConfig(config string) bool {
@@ -33,20 +30,6 @@ func readDelay(configFilePath string) int {
 		return 30
 	}
 	return minutes
-}
-
-func notify(OS, configIconPath, message string) {
-	if OS == "darwin" {
-		osa, err := exec.LookPath("osascript")
-		if err != nil {
-			panic(err)
-		}
-		cmd := exec.Command(osa, "-e", `tell application "System Events" to display notification "`+message+`" with title "Drink!" sound name "default"`)
-		cmd.Run()
-	} else {
-		beeep.Notify("Drink!", message, configIconPath)
-		beeep.Beep(440.0, 200)
-	}
 }
 
 func downloadFile(URL, fileName string) error {
