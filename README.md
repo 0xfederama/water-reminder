@@ -19,8 +19,8 @@ For now the app displays the icon only for linux.
 
 ### MacOS
 
-- Download the latest [release](https://github.com/0xfederama/water-reminder/releases) for MacOS (`.app.zip` file)
-- Unzip the archive and move `Water Reminder.app` file wherever you want
+- Download the latest [release](https://github.com/0xfederama/water-reminder/releases) for MacOS (`.dmg` file)
+- Move `Water Reminder.app` file in Applications
 - Launch the app, then go into preferences, security and allow the app to be executed, since it is not trusted by Apple.
 - To make the app run at startup open preferences, users, [your user], login items and add the app to the list
 - If you want to change the delay between two notifications, simply change the number of minutes in `$HOME/Library/Application Support/water-reminder/config.txt`
