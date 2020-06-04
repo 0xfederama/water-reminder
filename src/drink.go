@@ -1,49 +1,50 @@
 package main
 
 import (
-	"bufio"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"time"
 )
 
 func main() {
 
+	//Search in config path if there is the directory water-reminder
+	OS := runtime.GOOS
+	var configPath string
+	home, _ := os.LookupEnv("HOME")
+	if OS == "darwin" {
+		configPath = filepath.Join(home, "Library/Application Support")
+	} else {
+		configPath = filepath.Join(home, ".config")
+	}
+
+	configDirPath := filepath.Join(configPath, "water-reminder")
+	configFilePath := filepath.Join(configDirPath, "config.txt")
+	configIconPath := filepath.Join(configDirPath, "water-glass.png")
+
+	if !findConfig(configPath) {
+		//Create config directory
+		os.Mkdir(configDirPath, 0700)
+
+		//Download icon and default config file in the new directory
+		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/config.txt", configFilePath)
+		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass.png", configIconPath)
+	}
+
+	//Send first notification after 5 seconds
 	time.Sleep(5 * time.Second)
+	message := "Start drinking now"
+	notify(OS, configIconPath, message)
 
-	//Path to the image and config used for the notification
-	exPath, err := os.Executable()
-	if err != nil {
-		return
-	}
-	exDir := filepath.Dir(exPath)
-	iconPath := "../resources/water-glass.png"
-	icon := filepath.Join(exDir, iconPath)
-	configPath := "../resources/config.txt"
-	config := filepath.Join(exDir, configPath)
+	delay := readDelay(configFilePath)
 
-	//Executing first command
-	Alert("Drink!!!", "Start drinking now", icon)
-
-	//Read from config file in ../resources how many minutes to wait between two notifications
-	file, err := os.Open(config)
-	if err != nil {
-		return
-	}
-	scanner := bufio.NewScanner(file)
-	scanner.Scan()
-	delay := scanner.Text()
-	//Convert the string read from config to int
-	minutes, err := strconv.Atoi(string(delay))
-	if err != nil {
-		return
-	}
-
-	//Wait *minutes* minutes before sending another notification
+	//While true send notifications sleeping every delay minutes
 	for {
-		time.Sleep(time.Duration(minutes) * time.Minute)
-		Alert("Drink!!!", "You haven't been drinking for "+delay+" minutes", icon)
+		time.Sleep(time.Duration(delay) * time.Minute)
+		message := "You haven't been drinking for" + strconv.Itoa(delay) + "minutes"
+		notify(OS, configIconPath, message)
 	}
 
 }
