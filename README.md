@@ -13,8 +13,17 @@ For now the app displays the icon only for linux.
 ### Linux
 
 - Download the latest [release](https://github.com/0xfederama/water-reminder/releases) for Linux (the simple `drink_linux` binary file) and place it wherever you want
-- To make the app run at startup open "Startup Applications", press "Add" and in the command section type `path/to/drink_linux`. Give the app the name you want.
-- If you don't want the app to open at startup, just open the terminal when you want to execute it and type `/path/to/drink_linux`
+- To make the app runnable from the applications grid, first launch it from the terminal, then you need to create `water-reminder.desktop` file in `$HOME/.local/share/applications` and copy this, changing [your username]
+```
+  [Desktop Entry]
+  Name=Water Reminder
+  Exec=/path/to/drink_linux
+  Terminal=false
+  Type=Application
+  Comment=Remember to drink every 30 minutes
+  Icon=/home/[your username]/.config/water-reminder/water-glass.png
+```
+- To make the app run at startup (using `water-reminder.desktop` and if you have `gnome-tweak-tools` installed) youo can open Tweaks and add Water Reminder to the startup applications. Otherwise, if you didn't create `water-reminder.desktop` or if you don't have `gnome-tweak-tools`, open "Startup Applications", press "Add" and in the command section type `path/to/drink_linux`. Give the app the name you want
 - If you want to change the delay between two notifications, simply change the number of minutes in `$HOME/.config/water-reminder/config.txt`
 
 ### MacOS
