@@ -84,13 +84,11 @@ func main() {
 		},
 	}
 
-	// Load tray icon.
-	iconData, _ := ioutil.ReadFile(configIconPath)
-
-	trayhost.Initialize("Water Reminder", iconData, menuItems)
-
 	go notify(configFilePath, configIconPath)
 
+	// Load tray icon
+	iconData, _ := ioutil.ReadFile(configIconPath)
+	trayhost.Initialize("Water Reminder", iconData, menuItems)
 	trayhost.EnterLoop()
 
 }
