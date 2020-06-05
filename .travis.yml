@@ -1,4 +1,7 @@
+before_install:
+  - sudo apt-get install gtk2.0
+
 language: go
 
 go:
- - "1.13.8"
+ - "stable"
