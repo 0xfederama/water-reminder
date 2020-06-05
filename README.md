@@ -1,6 +1,6 @@
 # Water Reminder
 
-[![Build Status](https://travis-ci.com/0xfederama/water-reminder.svg?branch=master)](https://travis-ci.com/0xfederama/water-reminder)
+<!--[![Build Status](https://travis-ci.com/0xfederama/water-reminder.svg?branch=master)](https://travis-ci.com/0xfederama/water-reminder)-->
 
 :droplet: :droplet: :droplet:
 
