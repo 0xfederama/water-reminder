@@ -87,7 +87,10 @@ func main() {
 	go notify(configFilePath, configIconPath)
 
 	// Load tray icon
-	iconData, _ := ioutil.ReadFile(configIconPath)
+	iconData, err := ioutil.ReadFile(configIconPath)
+	if err != nil {
+		return
+	}
 	trayhost.Initialize("Water Reminder", iconData, menuItems)
 	trayhost.EnterLoop()
 
