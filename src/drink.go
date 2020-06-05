@@ -42,7 +42,6 @@ func main() {
 	configDirPath := filepath.Join(configPath, "water-reminder")
 	configFilePath := filepath.Join(configDirPath, "config.txt")
 	configIconPath := filepath.Join(configDirPath, "water-glass.png")
-	configTrayIconPath := filepath.Join(configDirPath, "water-glass-tray.png")
 
 	if !findConfig(configPath) {
 		//Create config directory
@@ -51,7 +50,6 @@ func main() {
 		//Download icon and default config file in the new directory
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/config.txt", configFilePath)
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass.png", configIconPath)
-		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass-tray.png", configIconPath)
 	}
 
 	menuItems := []trayhost.MenuItem{
@@ -87,7 +85,7 @@ func main() {
 	}
 
 	// Load tray icon.
-	iconData, _ := ioutil.ReadFile(configTrayIconPath)
+	iconData, _ := ioutil.ReadFile(configIconPath)
 
 	trayhost.Initialize("Water Reminder", iconData, menuItems)
 
