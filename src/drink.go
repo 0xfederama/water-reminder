@@ -55,16 +55,31 @@ func main() {
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass-bw.png", configIconPathBW)
 	}
 
-	time.Sleep(5 * time.Second)
-
 	menuItems := []trayhost.MenuItem{
 		{
-			Title: "Example Item",
+			Title: "Set delay 15min (reload to apply)",
 			Handler: func() {
 				fmt.Println("do stuff")
 			},
 		},
-
+		{
+			Title: "Set delay 30min (reload to apply)",
+			Handler: func() {
+				fmt.Println("do stuff")
+			},
+		},
+		{
+			Title: "Set delay 45min (reload to apply)",
+			Handler: func() {
+				fmt.Println("do stuff")
+			},
+		},
+		{
+			Title: "Set delay 60min (reload to apply)",
+			Handler: func() {
+				fmt.Println("do stuff")
+			},
+		},
 		trayhost.SeparatorMenuItem(),
 		{
 			Title:   "Quit",
