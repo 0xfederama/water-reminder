@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -59,25 +58,25 @@ func main() {
 		{
 			Title: "Set delay 15min (reload to apply)",
 			Handler: func() {
-				fmt.Println("do stuff")
+				writeDelay(configFilePath, "15")
 			},
 		},
 		{
 			Title: "Set delay 30min (reload to apply)",
 			Handler: func() {
-				fmt.Println("do stuff")
+				writeDelay(configFilePath, "30")
 			},
 		},
 		{
 			Title: "Set delay 45min (reload to apply)",
 			Handler: func() {
-				fmt.Println("do stuff")
+				writeDelay(configFilePath, "45")
 			},
 		},
 		{
 			Title: "Set delay 60min (reload to apply)",
 			Handler: func() {
-				fmt.Println("do stuff")
+				writeDelay(configFilePath, "60")
 			},
 		},
 		trayhost.SeparatorMenuItem(),

@@ -16,6 +16,12 @@ func findConfig(config string) bool {
 	return true
 }
 
+func writeDelay(file, delay string) {
+	config, _ := os.Create(file)
+	defer config.Close()
+	config.WriteString(delay)
+}
+
 func readDelay(configFilePath string) int {
 	file, err := os.Open(configFilePath)
 	if err != nil {
