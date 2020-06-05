@@ -4,7 +4,7 @@
 
 :droplet: :droplet: :droplet:
 
-Remember to drink every 30 minutes with this simple script.
+Remember to drink every 30 minutes with this simple app.
 
 For now the app displays the icon only for linux.
 
