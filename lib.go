@@ -7,6 +7,11 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"time"
+
+	"github.com/deckarep/gosx-notifier"
+	"github.com/gen2brain/beeep"
+	"github.com/shurcooL/trayhost"
 )
 
 func findConfig(config string) bool {
@@ -14,6 +19,29 @@ func findConfig(config string) bool {
 		return false
 	}
 	return true
+}
+
+func downloadFile(URL, fileName string) error {
+	//Get the response bytes from the url
+	response, err := http.Get(URL)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+
+	//Create a empty file
+	file, err := os.Create(fileName)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	//Write the bytes to the fiel
+	_, err = io.Copy(file, response.Body)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func writeDelay(file, delay string) {
@@ -38,25 +66,66 @@ func readDelay(configFilePath string) int {
 	return minutes
 }
 
-func downloadFile(URL, fileName string) error {
-	//Get the response bytes from the url
-	response, err := http.Get(URL)
-	if err != nil {
-		return err
+func createTray(configFilePath string) []trayhost.MenuItem {
+	menuItems := []trayhost.MenuItem{
+		{
+			Title: "Set delay 15min (reload to apply)",
+			Handler: func() {
+				writeDelay(configFilePath, "15")
+			},
+		},
+		{
+			Title: "Set delay 30min (reload to apply)",
+			Handler: func() {
+				writeDelay(configFilePath, "30")
+			},
+		},
+		{
+			Title: "Set delay 45min (reload to apply)",
+			Handler: func() {
+				writeDelay(configFilePath, "45")
+			},
+		},
+		{
+			Title: "Set delay 60min (reload to apply)",
+			Handler: func() {
+				writeDelay(configFilePath, "60")
+			},
+		},
+		trayhost.SeparatorMenuItem(),
+		{
+			Title:   "Quit",
+			Handler: trayhost.Exit,
+		},
 	}
-	defer response.Body.Close()
+	return menuItems
+}
 
-	//Create a empty file
-	file, err := os.Create(fileName)
-	if err != nil {
-		return err
+func notify(config, icon, os string) {
+	//Send first notification
+	message := "Start drinking now"
+	if os == "linux" {
+		beeep.Alert("Drink!", message, icon)
+	} else {
+		note := gosxnotifier.NewNotification(message)
+		note.Title = "Drink!"
+		note.AppIcon = icon
+		note.Push()
 	}
-	defer file.Close()
 
-	//Write the bytes to the fiel
-	_, err = io.Copy(file, response.Body)
-	if err != nil {
-		return err
+	delay := readDelay(config)
+
+	//While true send notifications sleeping every delay minutes
+	for {
+		time.Sleep(time.Duration(delay) * time.Minute)
+		message := "You haven't been drinking for " + strconv.Itoa(delay) + " minutes"
+		if os == "linux" {
+			beeep.Alert("Drink!", message, icon)
+		} else {
+			note := gosxnotifier.NewNotification(message)
+			note.Title = "Drink!"
+			note.AppIcon = icon
+			note.Push()
+		}
 	}
-	return nil
 }

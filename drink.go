@@ -5,27 +5,9 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"strconv"
-	"time"
 
-	"github.com/gen2brain/beeep"
 	"github.com/shurcooL/trayhost"
 )
-
-func notify(config, icon string) {
-	//Send first notification
-	message := "Start drinking now"
-	beeep.Alert("Drink!", message, icon)
-
-	delay := readDelay(config)
-
-	//While true send notifications sleeping every delay minutes
-	for {
-		time.Sleep(time.Duration(delay) * time.Minute)
-		message := "You haven't been drinking for " + strconv.Itoa(delay) + " minutes"
-		beeep.Alert("Drink!", message, icon)
-	}
-}
 
 func main() {
 
@@ -52,39 +34,9 @@ func main() {
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass.png", configIconPath)
 	}
 
-	menuItems := []trayhost.MenuItem{
-		{
-			Title: "Set delay 15min (reload to apply)",
-			Handler: func() {
-				writeDelay(configFilePath, "15")
-			},
-		},
-		{
-			Title: "Set delay 30min (reload to apply)",
-			Handler: func() {
-				writeDelay(configFilePath, "30")
-			},
-		},
-		{
-			Title: "Set delay 45min (reload to apply)",
-			Handler: func() {
-				writeDelay(configFilePath, "45")
-			},
-		},
-		{
-			Title: "Set delay 60min (reload to apply)",
-			Handler: func() {
-				writeDelay(configFilePath, "60")
-			},
-		},
-		trayhost.SeparatorMenuItem(),
-		{
-			Title:   "Quit",
-			Handler: trayhost.Exit,
-		},
-	}
+	menuItems := createTray(configFilePath)
 
-	go notify(configFilePath, configIconPath)
+	go notify(configFilePath, configIconPath, OS)
 
 	// Load tray icon
 	iconData, err := ioutil.ReadFile(configIconPath)
