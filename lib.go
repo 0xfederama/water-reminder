@@ -109,6 +109,7 @@ func notify(config, icon, os string) {
 	} else {
 		note := gosxnotifier.NewNotification(message)
 		note.Title = "Drink!"
+		note.Sound="'default'"
 		note.AppIcon = icon
 		note.Push()
 	}
@@ -124,6 +125,7 @@ func notify(config, icon, os string) {
 		} else {
 			note := gosxnotifier.NewNotification(message)
 			note.Title = "Drink!"
+			note.Sound="'default'"
 			note.AppIcon = icon
 			note.Push()
 		}
