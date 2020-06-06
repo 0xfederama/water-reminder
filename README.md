@@ -8,6 +8,10 @@ Remember to drink every 30 minutes with this simple app.
 
 For now the app displays the icon in the notifications only in linux.
 
+MacOS                      |  Linux
+:-------------------------:|:-------------------------:
+![WR-MacOS](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-macos.png)  |  ![WR-Linux](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-linux.png)
+
 # Installation
 
 ### Linux
