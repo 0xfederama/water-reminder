@@ -34,7 +34,7 @@ func main() {
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass.png", configIconPath)
 	}
 
-	menuItems := createTray(configFilePath)
+	menuItems := createTray(configFilePath, configIconPath)
 
 	go notify(configFilePath, configIconPath, OS)
 

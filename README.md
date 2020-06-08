@@ -4,15 +4,22 @@
 
 :droplet: :droplet: :droplet:
 
-Remember to drink every 30 minutes with this simple app.
+Remember to drink every 15/30/45/60 minutes with this simple app.
 
 For now the app displays the icon in the notifications only in linux.
 
 MacOS                      |  Linux
 :-------------------------:|:-------------------------:
-![WR-MacOS](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-macos.png)  |  ![WR-Linux](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-lin.png)
+![WR-MacOS](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-macos.png)  |  ![WR-Linux](https://github.com/0xfederama/water-reminder/blob/master/.screenshots/water-reminder-linux.png)
 
 # Installation
+
+### MacOS
+
+- Download the latest [release](https://github.com/0xfederama/water-reminder/releases) for MacOS (`.dmg` file)
+- Move `Water Reminder.app` file in Applications
+- Launch the app, then go into preferences, security and allow the app to be executed, since it is not trusted by Apple.
+- To make the app run at startup open preferences, users, [your user], login items and add the app to the list
 
 ### Linux
 
@@ -28,10 +35,3 @@ MacOS                      |  Linux
   Icon=/home/[your username]/.config/water-reminder/water-glass.png
 ```
 - To make the app run at startup (using `water-reminder.desktop` and if you have `gnome-tweak-tools` installed) you can open Tweaks and add Water Reminder to the startup applications. Otherwise, if you didn't create `water-reminder.desktop` or if you don't have `gnome-tweak-tools`, open "Startup Applications", press "Add" and in the command section type `path/to/drink_linux`. Give the app the name you want
-
-### MacOS
-
-- Download the latest [release](https://github.com/0xfederama/water-reminder/releases) for MacOS (`.dmg` file)
-- Move `Water Reminder.app` file in Applications
-- Launch the app, then go into preferences, security and allow the app to be executed, since it is not trusted by Apple.
-- To make the app run at startup open preferences, users, [your user], login items and add the app to the list

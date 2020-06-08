@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -66,30 +67,34 @@ func readDelay(configFilePath string) int {
 	return minutes
 }
 
-func createTray(configFilePath string) []trayhost.MenuItem {
+func createTray(configFilePath, icon string) []trayhost.MenuItem {
 	menuItems := []trayhost.MenuItem{
 		{
-			Title: "Set delay 15min (reload to apply)",
+			Title: "Set delay - 15min",
 			Handler: func() {
 				writeDelay(configFilePath, "15")
+				sendNotif("Water Reminder", "Delay set to 15 min. Reload the app to apply changes", icon)
 			},
 		},
 		{
-			Title: "Set delay 30min (reload to apply)",
+			Title: "Set delay - 30min",
 			Handler: func() {
 				writeDelay(configFilePath, "30")
+				sendNotif("Water Reminder", "Delay set to 30 min. Reload the app to apply changes", icon)
 			},
 		},
 		{
-			Title: "Set delay 45min (reload to apply)",
+			Title: "Set delay - 45min",
 			Handler: func() {
 				writeDelay(configFilePath, "45")
+				sendNotif("Water Reminder", "Delay set to 45 min. Reload the app to apply changes", icon)
 			},
 		},
 		{
-			Title: "Set delay 60min (reload to apply)",
+			Title: "Set delay - 60min",
 			Handler: func() {
 				writeDelay(configFilePath, "60")
+				sendNotif("Water Reminder", "Delay set to 60 min. Reload the app to apply changes", icon)
 			},
 		},
 		trayhost.SeparatorMenuItem(),
@@ -109,7 +114,7 @@ func notify(config, icon, os string) {
 	} else {
 		note := gosxnotifier.NewNotification(message)
 		note.Title = "Drink!"
-		note.Sound="'default'"
+		note.Sound = "'default'"
 		note.AppIcon = icon
 		note.Push()
 	}
@@ -125,9 +130,21 @@ func notify(config, icon, os string) {
 		} else {
 			note := gosxnotifier.NewNotification(message)
 			note.Title = "Drink!"
-			note.Sound="'default'"
+			note.Sound = "'default'"
 			note.AppIcon = icon
 			note.Push()
 		}
+	}
+}
+
+func sendNotif(title, message, icon string) {
+	if runtime.GOOS == "linux" {
+		beeep.Alert(title, message, icon)
+	} else {
+		note := gosxnotifier.NewNotification(message)
+		note.Title = title
+		note.Sound = "'default'"
+		note.AppIcon = icon
+		note.Push()
 	}
 }
