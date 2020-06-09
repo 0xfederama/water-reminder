@@ -36,6 +36,6 @@ MacOS                      |  Linux
 ```
 - To make the app run at startup (using `water-reminder.desktop` and if you have `gnome-tweak-tools` installed) you can open Tweaks and add Water Reminder to the startup applications. Otherwise, if you didn't create `water-reminder.desktop` or if you don't have `gnome-tweak-tools`, open "Startup Applications", press "Add" and in the command section type `path/to/drink_linux`. Give the app the name you want
 
-#Build
+# Build
 
 To build from source, all you need to do is to install [Go](https://golang.org/dl/) (the latest version is ok), clone the repo (`go.mod` and `go.sum` files (Go modules) will install for you every Go library needed) and then build with `go build -o [name] drink.go lib.go`
