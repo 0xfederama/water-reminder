@@ -1,6 +1,7 @@
 before_install:
  - sudo apt-get install gtk2.0
- - sudo apt-get install libappindicator-dev 
+ - sudo apt-get install libappindicator-dev
+ - export GO111MODULE="on"
 
 language: go
 
