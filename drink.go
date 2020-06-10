@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-
-	"github.com/shurcooL/trayhost"
 )
 
 var version string = "2.3"
@@ -38,8 +36,6 @@ func main() {
 		downloadFile("https://raw.githubusercontent.com/0xfederama/water-reminder/master/resources/water-glass.png", configIconPath)
 	}
 
-	menuItems := createTray(configFilePath, configIconPath)
-
 	go notify(configFilePath, configIconPath, OS)
 
 	// Load tray icon
@@ -47,7 +43,7 @@ func main() {
 	if err != nil {
 		return
 	}
-	trayhost.Initialize("Water Reminder", iconData, menuItems)
-	trayhost.EnterLoop()
+
+	tray(iconData, configIconPath, configFilePath)
 
 }

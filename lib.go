@@ -10,22 +10,22 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/deckarep/gosx-notifier"
-	"github.com/tcnksm/go-latest"
+	gosxnotifier "github.com/deckarep/gosx-notifier"
 	"github.com/gen2brain/beeep"
-	"github.com/shurcooL/trayhost"
+	"github.com/getlantern/systray"
+	"github.com/tcnksm/go-latest"
 )
 
 func checkVersion(version, icon string) {
 	githubTag := &latest.GithubTag{
-		Owner:      "0xfederama",
-		Repository: "water-reminder",
+		Owner:             "0xfederama",
+		Repository:        "water-reminder",
 		FixVersionStrFunc: latest.DeleteFrontV(),
 	}
 
 	res, _ := latest.Check(githubTag, version)
 	if res.Outdated {
-		beeep.Alert("Water Reminder", "You should update to version "+ res.Current +". Visit github.com/0xfederama/water-reminder", icon)
+		sendNotif("Water Reminder", "You should update to version "+res.Current+". Visit github.com/0xfederama/water-reminder", icon)
 	}
 }
 
@@ -81,45 +81,6 @@ func readDelay(configFilePath string) int {
 	return minutes
 }
 
-func createTray(configFilePath, icon string) []trayhost.MenuItem {
-	menuItems := []trayhost.MenuItem{
-		{
-			Title: "Set delay - 15min",
-			Handler: func() {
-				writeDelay(configFilePath, "15")
-				sendNotif("Water Reminder", "Delay set to 15 min. Reload the app to apply changes", icon)
-			},
-		},
-		{
-			Title: "Set delay - 30min",
-			Handler: func() {
-				writeDelay(configFilePath, "30")
-				sendNotif("Water Reminder", "Delay set to 30 min. Reload the app to apply changes", icon)
-			},
-		},
-		{
-			Title: "Set delay - 45min",
-			Handler: func() {
-				writeDelay(configFilePath, "45")
-				sendNotif("Water Reminder", "Delay set to 45 min. Reload the app to apply changes", icon)
-			},
-		},
-		{
-			Title: "Set delay - 60min",
-			Handler: func() {
-				writeDelay(configFilePath, "60")
-				sendNotif("Water Reminder", "Delay set to 60 min. Reload the app to apply changes", icon)
-			},
-		},
-		trayhost.SeparatorMenuItem(),
-		{
-			Title:   "Quit",
-			Handler: trayhost.Exit,
-		},
-	}
-	return menuItems
-}
-
 func notify(config, icon, os string) {
 	//Send first notification
 	message := "Start drinking now"
@@ -161,4 +122,41 @@ func sendNotif(title, message, icon string) {
 		note.AppIcon = icon
 		note.Push()
 	}
+}
+
+func tray(icon []byte, iconString, configFilePath string) {
+	onExit := func() {}
+
+	onReady := func() {
+		systray.SetIcon(icon)
+		systray.SetTooltip("Water Reminder")
+		mDelay15 := systray.AddMenuItem("Set delay - 15min", "Set delay to 15 minutes")
+		mDelay30 := systray.AddMenuItem("Set delay - 30min", "Set delay to 30 minutes")
+		mDelay45 := systray.AddMenuItem("Set delay - 45min", "Set delay to 45 minutes")
+		mDelay60 := systray.AddMenuItem("Set delay - 60min", "Set delay to 60 minutes")
+		systray.AddSeparator()
+		mQuit := systray.AddMenuItem("Quit", "Close the app")
+
+		for {
+			select {
+			case <-mDelay15.ClickedCh:
+				writeDelay(configFilePath, "15")
+				sendNotif("Water Reminder", "Delay set to 15 min. Reload the app to apply changes", iconString)
+			case <-mDelay30.ClickedCh:
+				writeDelay(configFilePath, "30")
+				sendNotif("Water Reminder", "Delay set to 30 min. Reload the app to apply changes", iconString)
+			case <-mDelay45.ClickedCh:
+				writeDelay(configFilePath, "45")
+				sendNotif("Water Reminder", "Delay set to 45 min. Reload the app to apply changes", iconString)
+			case <-mDelay60.ClickedCh:
+				writeDelay(configFilePath, "60")
+				sendNotif("Water Reminder", "Delay set to 60 min. Reload the app to apply changes", iconString)
+			case <-mQuit.ClickedCh:
+				systray.Quit()
+				return
+			}
+		}
+	}
+
+	systray.Run(onReady, onExit)
 }
