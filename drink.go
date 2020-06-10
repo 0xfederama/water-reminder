@@ -7,7 +7,7 @@ import (
 	"runtime"
 )
 
-var version string = "2.3"
+var version string = "2.3.1"
 
 func main() {
 
