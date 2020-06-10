@@ -25,9 +25,17 @@ func main() {
 	configFilePath := filepath.Join(configDirPath, "config.txt")
 	configIconPath := filepath.Join(configDirPath, "water-glass.png")
 
-	checkVersion(version, configIconPath)
+	if connected() {
+		checkVersion(version, configIconPath)
+	}
 
 	if !findConfig(configPath) {
+		
+		if !connected() {
+			sendNotif("Water Reminder", "You have to be connected to Internet to download the icon and configuration files", "")
+			return
+		}
+
 		//Create config directory
 		os.Mkdir(configDirPath, 0700)
 

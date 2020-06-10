@@ -5,16 +5,25 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"time"
 
-	gosxnotifier "github.com/deckarep/gosx-notifier"
+	"github.com/deckarep/gosx-notifier"
 	"github.com/gen2brain/beeep"
 	"github.com/getlantern/systray"
 	"github.com/tcnksm/go-latest"
 )
+
+func connected() bool {
+	_, err := http.Get("http://clients3.google.com/generate_204")
+	if err != nil {
+		return false
+	}
+	return true
+}
 
 func checkVersion(version, icon string) {
 	githubTag := &latest.GithubTag{
@@ -51,7 +60,7 @@ func downloadFile(URL, fileName string) error {
 	}
 	defer file.Close()
 
-	//Write the bytes to the fiel
+	//Write the bytes to the field
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
 		return err
@@ -84,15 +93,7 @@ func readDelay(configFilePath string) int {
 func notify(config, icon, os string) {
 	//Send first notification
 	message := "Start drinking now"
-	if os == "linux" {
-		beeep.Alert("Drink!", message, icon)
-	} else {
-		note := gosxnotifier.NewNotification(message)
-		note.Title = "Drink!"
-		note.Sound = "'default'"
-		note.AppIcon = icon
-		note.Push()
-	}
+	sendNotif("Drink!", message, icon)
 
 	delay := readDelay(config)
 
@@ -100,27 +101,27 @@ func notify(config, icon, os string) {
 	for {
 		time.Sleep(time.Duration(delay) * time.Minute)
 		message := "You haven't been drinking for " + strconv.Itoa(delay) + " minutes"
-		if os == "linux" {
-			beeep.Alert("Drink!", message, icon)
-		} else {
-			note := gosxnotifier.NewNotification(message)
-			note.Title = "Drink!"
-			note.Sound = "'default'"
-			note.AppIcon = icon
-			note.Push()
-		}
+		sendNotif("Drink!", message, icon)
 	}
 }
 
 func sendNotif(title, message, icon string) {
 	if runtime.GOOS == "linux" {
-		beeep.Alert(title, message, icon)
+		if icon != "" {
+			beeep.Alert(title, message, icon)
+		} else {
+			exec.Command("notify-send", title, message).Run()
+		}
 	} else {
 		note := gosxnotifier.NewNotification(message)
 		note.Title = title
 		note.Sound = "'default'"
-		note.AppIcon = icon
-		note.Push()
+		if icon != "" {
+			note.AppIcon = icon
+		}
+		if note.Push() != nil {
+			//TODO:
+		}
 	}
 }
 
@@ -128,7 +129,7 @@ func tray(icon []byte, iconString, configFilePath string) {
 	onExit := func() {}
 
 	onReady := func() {
-		systray.SetIcon(icon)
+		systray.SetIcon(icon) //TODO: Try SetTemplateIcon for the inverted colors icon
 		systray.SetTooltip("Water Reminder")
 		mDelay15 := systray.AddMenuItem("Set delay - 15min", "Set delay to 15 minutes")
 		mDelay30 := systray.AddMenuItem("Set delay - 30min", "Set delay to 30 minutes")
