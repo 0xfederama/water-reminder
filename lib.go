@@ -11,9 +11,23 @@ import (
 	"time"
 
 	"github.com/deckarep/gosx-notifier"
+	"github.com/tcnksm/go-latest"
 	"github.com/gen2brain/beeep"
 	"github.com/shurcooL/trayhost"
 )
+
+func checkVersion(version, icon string) {
+	githubTag := &latest.GithubTag{
+		Owner:      "0xfederama",
+		Repository: "water-reminder",
+		FixVersionStrFunc: latest.DeleteFrontV(),
+	}
+
+	res, _ := latest.Check(githubTag, version)
+	if res.Outdated {
+		beeep.Alert("Water Reminder", "You should update to version "+ res.Current +". Visit github.com/0xfederama/water-reminder", icon)
+	}
+}
 
 func findConfig(config string) bool {
 	if _, err := os.Stat(filepath.Join(config, "water-reminder")); os.IsNotExist(err) {

@@ -9,6 +9,8 @@ import (
 	"github.com/shurcooL/trayhost"
 )
 
+var version string = "2.3"
+
 func main() {
 
 	//Search in config path if there is the directory water-reminder
@@ -24,6 +26,8 @@ func main() {
 	configDirPath := filepath.Join(configPath, "water-reminder")
 	configFilePath := filepath.Join(configDirPath, "config.txt")
 	configIconPath := filepath.Join(configDirPath, "water-glass.png")
+
+	checkVersion(version, configIconPath)
 
 	if !findConfig(configPath) {
 		//Create config directory
