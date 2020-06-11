@@ -119,9 +119,7 @@ func sendNotif(title, message, icon string) {
 		if icon != "" {
 			note.AppIcon = icon
 		}
-		if note.Push() != nil {
-			//TODO:
-		}
+		note.Push()
 	}
 }
 
@@ -129,7 +127,7 @@ func tray(icon []byte, iconString, configFilePath string) {
 	onExit := func() {}
 
 	onReady := func() {
-		systray.SetIcon(icon) //TODO: Try SetTemplateIcon for the inverted colors icon
+		systray.SetTemplateIcon(icon, icon)
 		systray.SetTooltip("Water Reminder")
 		mDelay15 := systray.AddMenuItem("Set delay - 15min", "Set delay to 15 minutes")
 		mDelay30 := systray.AddMenuItem("Set delay - 30min", "Set delay to 30 minutes")
