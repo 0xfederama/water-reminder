@@ -30,7 +30,7 @@ func main() {
 	}
 
 	if !findConfig(configPath) {
-		
+
 		if !connected() {
 			sendNotif("Water Reminder", "You have to be connected to Internet to download the icon and configuration files", "")
 			return
