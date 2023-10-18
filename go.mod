@@ -9,8 +9,6 @@ require (
 	github.com/google/go-github v17.0.0+incompatible // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.2.0 // indirect
-	github.com/shurcooL/trayhost v0.0.0-20181020202213-114974ef9e16
-	github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af
 	github.com/tcnksm/go-latest v0.0.0-20170313132115-e3007ae9052e
-	golang.org/x/net v0.0.0-20200602114024-627f9648deb9 // indirect
+	golang.org/x/net v0.17.0 // indirect
 )
